@@ -1,13 +1,14 @@
 package ips.razorpay.controller;
 
-import ips.razorpay.dto.LoginRequestDto;
-import ips.razorpay.dto.LoginResponseDto;
-import ips.razorpay.dto.SignupRequestDto;
-import ips.razorpay.dto.SignupResponseDto;
+import ips.razorpay.dto.*;
 import ips.razorpay.service.AuthService;
+import ips.razorpay.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final ProductService productService;
 
     @PostMapping("/signup")
     public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto dto) {
@@ -24,5 +26,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto) {
         return ResponseEntity.ok(authService.login(dto));
+    }
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductResponseDto>> getAllproducts(){
+        return ResponseEntity.ok(productService.geTAllproducts());
     }
 }

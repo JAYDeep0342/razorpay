@@ -5,10 +5,12 @@ import ips.razorpay.dto.ProductResponseDto;
 import ips.razorpay.entity.Product;
 import ips.razorpay.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -55,5 +57,18 @@ public class ProductService {
         } catch (Exception e) {
             throw new RuntimeException("Product creation failed", e);
         }
+    }
+
+    public @Nullable List<ProductResponseDto> geTAllproducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(product -> ProductResponseDto.builder()
+                        .id(product.getId())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .quantity(product.getQuantity())
+                        .imageUrl(product.getImageUrl())
+                        .build()
+                ).toList();
     }
 }
