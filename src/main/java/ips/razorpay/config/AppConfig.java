@@ -1,5 +1,6 @@
 package ips.razorpay.config;
 import com.cloudinary.Cloudinary;
+import com.razorpay.RazorpayClient;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,6 +61,17 @@ private String cloudName;
         config.put("api_secret", apiSecret);
 
         return new Cloudinary(config);
+    }
+
+    @Value("${razorpay.key}")
+    private String key;
+
+    @Value("${razorpay.secret}")
+    private String secret;
+
+    @Bean
+    public RazorpayClient razorpayClient() throws Exception {
+        return new RazorpayClient(key, secret);
     }
 
 
